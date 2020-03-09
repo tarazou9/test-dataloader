@@ -1,2 +1,11 @@
-# test-dataloader
-This is test project to reproduce the error for the nestjs-dataloader
+To reproduce the erorr, run below query 
+
+query {
+  person(id: "12345"){
+   Id,
+    PersonHierarchies {
+      Id
+    }
+  }
+}
+
