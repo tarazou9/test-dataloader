@@ -10,7 +10,7 @@ import DataLoader = require("dataloader");
 export class PersonResolver {
   constructor(private readonly service: EntityService) {}
 
-  @Query(returns => Person, { nullable: true })
+  @Query(returns => [Person], { nullable: true })
   async person(
     @Args('id') id: string,
   ) {
@@ -25,11 +25,10 @@ export class PersonResolver {
   async PersonHierarchies(
     @Parent() person: Person,
     @Loader(PersonHierarchyLoader.name)
-    personLoader: DataLoader<PersonHierarchyKey, PersonHierarchy[]>,
+    personHierarchyLoader: DataLoader<PersonHierarchyKey, PersonHierarchy[]>,
   ) {
-    const result = await personLoader.load({
-      Id: person.Id
-    });
+    const key : PersonHierarchyKey = {Id: person.Id};
+    const result = await personHierarchyLoader.load(key);
 
     if (_.isEmpty(result[0])) {
       return [];
